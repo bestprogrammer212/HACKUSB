@@ -11,9 +11,9 @@
   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝    ╚═════╝ ╚══════╝╚═════╝
 ```
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]()
 [![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-blue.svg)]()
-[![Shell](https://img.shields.io/badge/shell-zsh-green.svg)]()
+[![Shell](https://img.shields.io/badge/shell-zsh%20%7C%20PowerShell-green.svg)]()
 
 ---
 
@@ -44,6 +44,26 @@ zsh hackusb_setup.zsh
 # Linux / WSL2
 sudo zsh hackusb_setup.zsh
 ```
+
+```powershell
+# Windows PowerShell launcher (prefers WSL2 automatically)
+.\hackusb_setup.ps1
+
+# Force native Windows mode (Git Bash + winget/choco/scoop)
+.\hackusb_setup.ps1 -Mode native -PackageManager winget
+```
+
+### Windows Prerequisites & Notes
+
+- Open PowerShell in the repository folder and run scripts with a process-local policy:
+  - `Set-ExecutionPolicy -Scope Process Bypass`
+- WSL2 is strongly recommended for full Linux-tool compatibility:
+  - `wsl --install` (run in elevated PowerShell, reboot after install)
+- Native Windows mode is supported but has limited parity for Linux-only tools.
+- Path mapping examples:
+  - `E:\HACKUSB` (Windows) → `/mnt/e/HACKUSB` (WSL2)
+  - `E:\HACKUSB` (Windows) → `/e/HACKUSB` (Git Bash)
+- Keep security controls enabled: run as standard user when possible; only elevate for package installs or formatting actions.
 
 The setup wizard walks through 15 steps:
 
@@ -216,10 +236,16 @@ python3 08_scripts/revshell_gen.py <LHOST> <LPORT>
 
 ### `install_on_pc.zsh` — Deploy tools on any machine
 ```zsh
-zsh 08_scripts/install_on_pc.zsh
+zsh install_on_pc.zsh
 # Run from USB on any PC to install all pentest tools
 # Profiles: Quick (5 min) / Standard (15 min) / Full (30+ min)
 # Supports: macOS, Linux (apt/pacman/dnf), Windows WSL2/winget
+```
+
+```powershell
+# Windows launcher for PC-only installer
+.\install_on_pc.ps1
+.\install_on_pc.ps1 -Mode native -PackageManager winget
 ```
 
 ---
@@ -315,8 +341,28 @@ start E:\HACKUSB\10_cheatsheets\index.html                # Windows
 ```
 hackusb_setup.zsh       → Run once to set everything up
 hackusb_update.zsh      → Run monthly to keep tools current
+install_on_pc.zsh       → Install toolchain on the current PC only
+install_on_pc.ps1       → Windows launcher for install_on_pc.zsh
 hackusb_cheatsheet.html → Copy next to setup.zsh before running
 ```
+
+Repository helper:
+
+```
+hackusb_setup.ps1       → Windows PowerShell launcher for hackusb_setup.zsh
+```
+
+---
+
+## Troubleshooting (Quick)
+
+| Problem | Fix |
+|---|---|
+| `hackusb_setup.ps1` blocked by execution policy | `Set-ExecutionPolicy -Scope Process Bypass` |
+| `zsh: command not found` in Windows native mode | Install Git for Windows (`winget install Git.Git`) and re-run launcher |
+| Tools missing on Windows native mode | Use WSL2 mode (`.\hackusb_setup.ps1 -Mode wsl`) |
+| USB path not found in WSL2 | Confirm drive is mounted and use `/mnt/<drive-letter>/HACKUSB` |
+| Package manager command fails | Run elevated PowerShell, then rerun with `-PackageManager winget` / `choco` / `scoop` |
 
 ---
 
