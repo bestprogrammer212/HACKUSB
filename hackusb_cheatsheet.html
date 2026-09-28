@@ -224,7 +224,7 @@ hr.dv{border:none;border-top:1px solid var(--bor);margin:26px 0;}
 <!-- ══ 00 QUICK START ══════════════════════════════════════ -->
 <div class="sec a" id="start">
   <div class="st">QUICK<span> START</span></div>
-  <div class="sd">HACK USB — ONE COMMAND SETUP · macOS · LINUX · WINDOWS (WSL2)</div>
+  <div class="sd">HACK USB — ONE COMMAND SETUP · macOS · LINUX · WINDOWS (WSL2 + NATIVE)</div>
   <div class="al">⚠ All tools and techniques only on systems you own or have explicit written permission to test! CH: Art. 143bis StGB · DE: §202a StGB · US: CFAA 18 U.S.C. §1030</div>
 
   <div class="cb">
@@ -268,23 +268,26 @@ sudo zsh hackusb_setup.zsh
     </div>
     <div class="os-block os-win">
       <div class="term tb">
-        <div class="tbar"><div class="dot dr"></div><div class="dot dy2"></div><div class="dot dg2"></div><div class="tt">Windows — WSL2 recommended</div></div>
-        <pre><span class="c"># Windows — WSL2 strongly recommended</span>
-<span class="c"># Option A: WSL2 (full Linux compatibility)</span>
-wsl --install          <span class="c"># PowerShell as Admin, then reboot</span>
-<span class="c"># In WSL2 Ubuntu:</span>
-sudo zsh hackusb_setup.zsh
-<span class="c"># Select [3] Windows WSL2 at Step 0</span>
+        <div class="tbar"><div class="dot dr"></div><div class="dot dy2"></div><div class="dot dg2"></div><div class="tt">Windows — PowerShell + WSL2/native</div></div>
+        <pre><span class="c"># 1) Open PowerShell in the repo folder</span>
+Set-ExecutionPolicy -Scope Process Bypass
+.\hackusb_setup.ps1
 
-<span class="c"># Option B: Git Bash (limited — no aircrack, hydra...)</span>
-zsh hackusb_setup.zsh
-<span class="c"># Select [4] Windows Native + winget/choco</span>
+<span class="c"># 2) Recommended mode: WSL2 (full Linux compatibility)</span>
+wsl --install          <span class="c"># run once as Administrator, then reboot</span>
+.\hackusb_setup.ps1 -Mode wsl
 
-<span class="c"># USB path in WSL2:</span>
-<span class="c"># Drive E: → /mnt/e/HACKUSB</span></pre>
+<span class="c"># 3) Native mode (limited tool parity, uses Git Bash + winget/choco/scoop)</span>
+.\hackusb_setup.ps1 -Mode native -PackageManager winget
+
+<span class="c"># Path handling examples:</span>
+<span class="c"># E:\HACKUSB  -> /mnt/e/HACKUSB (WSL2)</span>
+<span class="c"># E:\HACKUSB  -> /e/HACKUSB     (Git Bash)</span></pre>
       </div>
     </div>
   </div>
+
+  <div class="ex ep"><strong>Windows troubleshooting:</strong> If script execution is blocked, run <code>Set-ExecutionPolicy -Scope Process Bypass</code>. If native mode misses Linux-only tools, switch to WSL2 mode. Use elevated PowerShell only when installing packages or formatting disks.</div>
 
   <div class="cb">
     <div class="cbt">ALL COMMANDS AT A GLANCE</div>
