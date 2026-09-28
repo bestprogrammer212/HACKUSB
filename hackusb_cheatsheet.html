@@ -304,7 +304,7 @@ wsl --install          <span class="c"># run once as Administrator, then reboot<
       <tr><td>Port scan</td><td>python3 08_scripts/port_scan.py &lt;HOST&gt; [1-65535]</td><td>Pure Python, no nmap needed</td></tr>
       <tr><td>Reverse shell gen</td><td>python3 08_scripts/revshell_gen.py 10.0.0.1 4444</td><td>12 variants: bash, python, php, ps...</td></tr>
       <tr><td>Hash crack</td><td>python3 08_scripts/hashcrack.py &lt;HASH&gt;</td><td>Auto-detect + rockyou.txt</td></tr>
-      <tr><td>Install on PC</td><td>zsh 08_scripts/install_on_pc.zsh</td><td>Deploy tools on any machine from USB</td></tr>
+      <tr><td>Install on PC</td><td>zsh install_on_pc.zsh / .\install_on_pc.ps1</td><td>Deploy tools on any machine from USB</td></tr>
       <tr><td>Update everything</td><td>sudo zsh hackusb_update.zsh</td><td>git pull + blocklists + wordlists</td></tr>
       <tr><td>Ad-Blocker ON</td><td>sudo zsh 13_adblocker/setup_adblocker.zsh</td><td>Choose profile → hosts + DNS flush</td></tr>
       <tr><td>Ad-Blocker status</td><td>sudo zsh 13_adblocker/setup_adblocker.zsh --status</td><td>Count blocked domains</td></tr>
@@ -449,7 +449,7 @@ zsh 14_vault/vault.zsh backup</pre>
 <div class="sec" id="install_pc">
   <div class="st">INSTALL<span> ON PC</span></div>
   <div class="sd">DEPLOY HACK TOOLS ON ANY MACHINE — FROM USB IN SECONDS</div>
-  <div class="ac">💡 Use <strong>zsh 08_scripts/install_on_pc.zsh</strong> to install all pentest tools directly on the target PC. Perfect when you plug in the USB and need tools fast.</div>
+  <div class="ac">💡 Use <strong>zsh install_on_pc.zsh</strong> (or <strong>.\install_on_pc.ps1</strong> on Windows) to install all pentest tools directly on the target PC.</div>
 
   <div class="ex"><strong>What it does:</strong> One script — quick interactive menu — installs nmap, hydra, sqlmap, john, hashcat, go tools (subfinder, nuclei, ffuf...), python pentest libs, Node.js, Rust, Ruby gems on the host machine. Three profiles: Quick (5 min) / Standard (15 min) / Full (30+ min).</div>
 
@@ -458,8 +458,8 @@ zsh 14_vault/vault.zsh backup</pre>
     <div class="os-block os-mac">
       <div class="term">
         <div class="tbar"><div class="dot dr"></div><div class="dot dy2"></div><div class="dot dg2"></div><div class="tt">macOS</div></div>
-        <pre><span class="c"># Run from USB stick:</span>
-zsh /Volumes/HACKUSB/08_scripts/install_on_pc.zsh
+        <pre><span class="c"># Run installer:</span>
+zsh /Volumes/HACKUSB/install_on_pc.zsh
 
 <span class="c"># Installs on this Mac:</span>
 <span class="c">  Quick    → nmap, git, python3, go, node, curl, wget, jq, tmux</span>
@@ -478,8 +478,8 @@ zsh /Volumes/HACKUSB/08_scripts/install_on_pc.zsh
     <div class="os-block os-linux">
       <div class="term tg">
         <div class="tbar"><div class="dot dr"></div><div class="dot dy2"></div><div class="dot dg2"></div><div class="tt">Linux</div></div>
-        <pre><span class="c"># Run from USB stick:</span>
-sudo zsh /media/$USER/HACKUSB/08_scripts/install_on_pc.zsh
+        <pre><span class="c"># Run installer:</span>
+sudo zsh /media/$USER/HACKUSB/install_on_pc.zsh
 
 <span class="c"># Installs via apt/pacman/dnf:</span>
 <span class="c">  Quick    → git, curl, python3, go, nodejs, build-essential</span>
@@ -494,11 +494,15 @@ source ~/.zshrc</pre>
     <div class="os-block os-win">
       <div class="term tb">
         <div class="tbar"><div class="dot dr"></div><div class="dot dy2"></div><div class="dot dg2"></div><div class="tt">Windows (Git Bash / WSL2)</div></div>
-        <pre><span class="c"># WSL2 (recommended):</span>
-sudo zsh /mnt/e/HACKUSB/08_scripts/install_on_pc.zsh
+        <pre><span class="c"># PowerShell launcher (recommended entrypoint):</span>
+Set-ExecutionPolicy -Scope Process Bypass
+.\install_on_pc.ps1
+
+<span class="c"># WSL2 (recommended install backend):</span>
+.\install_on_pc.ps1 -Mode wsl
 
 <span class="c"># Git Bash (limited):</span>
-zsh E:/HACKUSB/08_scripts/install_on_pc.zsh
+.\install_on_pc.ps1 -Mode native -PackageManager winget
 
 <span class="c"># Installs via winget/choco:</span>
 <span class="c">  Git.Git, Python.Python.3.12, Golang.Go,</span>

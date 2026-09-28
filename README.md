@@ -236,10 +236,16 @@ python3 08_scripts/revshell_gen.py <LHOST> <LPORT>
 
 ### `install_on_pc.zsh` — Deploy tools on any machine
 ```zsh
-zsh 08_scripts/install_on_pc.zsh
+zsh install_on_pc.zsh
 # Run from USB on any PC to install all pentest tools
 # Profiles: Quick (5 min) / Standard (15 min) / Full (30+ min)
 # Supports: macOS, Linux (apt/pacman/dnf), Windows WSL2/winget
+```
+
+```powershell
+# Windows launcher for PC-only installer
+.\install_on_pc.ps1
+.\install_on_pc.ps1 -Mode native -PackageManager winget
 ```
 
 ---
@@ -335,6 +341,8 @@ start E:\HACKUSB\10_cheatsheets\index.html                # Windows
 ```
 hackusb_setup.zsh       → Run once to set everything up
 hackusb_update.zsh      → Run monthly to keep tools current
+install_on_pc.zsh       → Install toolchain on the current PC only
+install_on_pc.ps1       → Windows launcher for install_on_pc.zsh
 hackusb_cheatsheet.html → Copy next to setup.zsh before running
 ```
 

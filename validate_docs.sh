@@ -7,6 +7,8 @@ required_files=(
   "README.md"
   "hackusb_setup.zsh"
   "hackusb_setup.ps1"
+  "install_on_pc.zsh"
+  "install_on_pc.ps1"
   "hackusb_cheatsheet.html"
 )
 
@@ -15,7 +17,11 @@ for f in "${required_files[@]}"; do
 done
 
 grep -q "hackusb_setup.ps1" "$repo_root/README.md" || { echo "README is missing hackusb_setup.ps1 reference"; exit 1; }
+grep -q "install_on_pc.zsh" "$repo_root/README.md" || { echo "README is missing install_on_pc.zsh reference"; exit 1; }
+grep -q "install_on_pc.ps1" "$repo_root/README.md" || { echo "README is missing install_on_pc.ps1 reference"; exit 1; }
 grep -Fq ".\\hackusb_setup.ps1" "$repo_root/hackusb_cheatsheet.html" || { echo "Cheatsheet is missing PowerShell launcher command"; exit 1; }
+grep -Fq ".\\install_on_pc.ps1" "$repo_root/hackusb_cheatsheet.html" || { echo "Cheatsheet is missing PC installer PowerShell command"; exit 1; }
 grep -q "^#!/usr/bin/env zsh" "$repo_root/hackusb_setup.zsh" || { echo "hackusb_setup.zsh shebang missing"; exit 1; }
+grep -q "^#!/usr/bin/env zsh" "$repo_root/install_on_pc.zsh" || { echo "install_on_pc.zsh shebang missing"; exit 1; }
 
 echo "Documentation consistency checks passed."
